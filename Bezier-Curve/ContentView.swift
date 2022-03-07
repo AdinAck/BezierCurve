@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var data: Data = Data()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        HStack {
+            NavigationView {
+                PanelView(data: $data)
+                MainView(data: $data)
+            }
+        }
     }
 }
 

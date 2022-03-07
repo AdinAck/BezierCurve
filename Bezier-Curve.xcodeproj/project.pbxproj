@@ -11,6 +11,10 @@
 		40AF289227D4552600D7BCFB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF289127D4552600D7BCFB /* ContentView.swift */; };
 		40AF289427D4552700D7BCFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40AF289327D4552700D7BCFB /* Assets.xcassets */; };
 		40AF289727D4552700D7BCFB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40AF289627D4552700D7BCFB /* Preview Assets.xcassets */; };
+		40AF289F27D45F2B00D7BCFB /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF289E27D45F2B00D7BCFB /* PanelView.swift */; };
+		40AF28A127D45F3D00D7BCFB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF28A027D45F3D00D7BCFB /* MainView.swift */; };
+		40AF28A327D463C200D7BCFB /* BezierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF28A227D463C200D7BCFB /* BezierModel.swift */; };
+		40AF28A527D56DB700D7BCFB /* AnimatablePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF28A427D56DB700D7BCFB /* AnimatablePaths.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,10 @@
 		40AF289327D4552700D7BCFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		40AF289627D4552700D7BCFB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		40AF289827D4552700D7BCFB /* Bezier_Curve.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bezier_Curve.entitlements; sourceTree = "<group>"; };
+		40AF289E27D45F2B00D7BCFB /* PanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
+		40AF28A027D45F3D00D7BCFB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		40AF28A227D463C200D7BCFB /* BezierModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierModel.swift; sourceTree = "<group>"; };
+		40AF28A427D56DB700D7BCFB /* AnimatablePaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatablePaths.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +62,10 @@
 			children = (
 				40AF288F27D4552600D7BCFB /* Bezier_CurveApp.swift */,
 				40AF289127D4552600D7BCFB /* ContentView.swift */,
+				40AF289E27D45F2B00D7BCFB /* PanelView.swift */,
+				40AF28A027D45F3D00D7BCFB /* MainView.swift */,
+				40AF28A427D56DB700D7BCFB /* AnimatablePaths.swift */,
+				40AF28A227D463C200D7BCFB /* BezierModel.swift */,
 				40AF289327D4552700D7BCFB /* Assets.xcassets */,
 				40AF289827D4552700D7BCFB /* Bezier_Curve.entitlements */,
 				40AF289527D4552700D7BCFB /* Preview Content */,
@@ -139,6 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40AF28A527D56DB700D7BCFB /* AnimatablePaths.swift in Sources */,
+				40AF289F27D45F2B00D7BCFB /* PanelView.swift in Sources */,
+				40AF28A127D45F3D00D7BCFB /* MainView.swift in Sources */,
+				40AF28A327D463C200D7BCFB /* BezierModel.swift in Sources */,
 				40AF289227D4552600D7BCFB /* ContentView.swift in Sources */,
 				40AF289027D4552600D7BCFB /* Bezier_CurveApp.swift in Sources */,
 			);
