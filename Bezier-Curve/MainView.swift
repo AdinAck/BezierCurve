@@ -84,15 +84,33 @@ struct MainView: View {
                 // Lerps
                 Group {
                     // Lerp 0-1
-                    Line(start: lerp0, end: lerp1)
+                    Line(
+                        start1: data.properties.P0,
+                        end1: data.properties.C0,
+                        start2: data.properties.C0,
+                        end2: data.properties.C1,
+                        t: data.t
+                    )
                     .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [5, 10]))
 
                     // Lerp 1-2
-                    Line(start: lerp1, end: lerp2)
+                    Line(
+                        start1: data.properties.C0,
+                        end1: data.properties.C1,
+                        start2: data.properties.C1,
+                        end2: data.properties.P1,
+                        t: data.t
+                    )
                     .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [5, 10]))
 
                     // Lerp 3-4
-                    Line(start: lerp3, end: lerp4)
+                    Line(
+                        start1: lerp0,
+                        end1: lerp1,
+                        start2: lerp1,
+                        end2: lerp2,
+                        t: data.t
+                    )
                     .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [5, 10]))
                 }
                 .animation(data.animation, value: data.t)
@@ -110,45 +128,45 @@ struct MainView: View {
                 .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [10, 20]))
                 .opacity(0.5)
 
-                // Foreground curve
-                Path { path in
-                    path.move(to: data.properties.P0)
-                    path.addCurve(
-                        to: data.properties.P1,
-                        control1: data.properties.C0,
-                        control2: data.properties.C1
-                    )
-
-                }
-                .trim(from: 0, to: data.t)
-                .stroke(.white, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                .animation(data.animation, value: data.t)
+//                // Foreground curve
+//                Path { path in
+//                    path.move(to: data.properties.P0)
+//                    path.addCurve(
+//                        to: data.properties.P1,
+//                        control1: data.properties.C0,
+//                        control2: data.properties.C1
+//                    )
+//
+//                }
+//                .trim(from: 0, to: data.t)
+//                .stroke(.white, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+//                .animation(data.animation, value: data.t)
             }
             
             // Lerp points
             Group {
                 // Lerp 0
-                Circle(pos: lerp0, size: pointSize/2)
+                Circle(start: data.properties.P0, end: data.properties.C0, t: data.t, size: pointSize/2)
                 .fill(.orange)
-                
+
                 // Lerp 1
-                Circle(pos: lerp1, size: pointSize/2)
+                Circle(start: data.properties.C0, end: data.properties.C1, t: data.t, size: pointSize/2)
                 .fill(.indigo)
-                
+
                 // Lerp 2
-                Circle(pos: lerp2, size: pointSize/2)
+                Circle(start: data.properties.C1, end: data.properties.P1, t: data.t, size: pointSize/2)
                 .fill(.purple)
-                
+
                 // Lerp 3
-                Circle(pos: lerp3, size: pointSize/2)
+                Circle(start: lerp0, end: lerp1, t: data.t, size: pointSize/2)
                 .fill(.yellow)
-                
+
                 // Lerp 4
-                Circle(pos: lerp4, size: pointSize/2)
+                Circle(start: lerp1, end: lerp2, t: data.t, size: pointSize/2)
                 .fill(.mint)
-                
+
                 // Lerp 5
-                Circle(pos: lerp5, size: pointSize/2)
+                Circle(start: lerp3, end: lerp4, t: data.t, size: pointSize/2)
                 .fill(.green)
             }
             .animation(data.animation, value: data.t)
@@ -156,22 +174,22 @@ struct MainView: View {
             // Draggable points
             Group {
                 // Point 0
-                Circle(pos: data.properties.P0, size: pointSize)
+                Circle(start: data.properties.P0, end: data.properties.P0, t: data.t, size: pointSize)
                 .fill(.blue)
                 .gesture(getGesture(id: 0))
 
                 // Control 0
-                Circle(pos: data.properties.C0, size: pointSize)
+                Circle(start: data.properties.C0, end: data.properties.C0, t: data.t, size: pointSize)
                 .fill(.cyan)
                 .gesture(getGesture(id: 1))
 
                 // Point 1
-                Circle(pos: data.properties.P1, size: pointSize)
+                Circle(start: data.properties.P1, end: data.properties.P1, t: data.t, size: pointSize)
                 .fill(.red)
                 .gesture(getGesture(id: 2))
 
                 // Control 1
-                Circle(pos: data.properties.C1, size: pointSize)
+                Circle(start: data.properties.C1, end: data.properties.C1, t: data.t, size: pointSize)
                 .fill(.pink)
                 .gesture(getGesture(id: 3))
             }
