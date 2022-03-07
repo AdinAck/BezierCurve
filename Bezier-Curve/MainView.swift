@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct MainView: View {
-    
-//    @Binding var properties: BezierModel
-//    @Binding var t: CGFloat
-//    @Binding var animation: Animation
     @Binding var data: Data
     
     @State private var location: CGPoint = CGPoint(x: 0, y: 0)
@@ -40,15 +36,6 @@ struct MainView: View {
                     data.properties.P0 = gesture.location
                 }
             }
-    }
-    
-    /**
-     Adapted from https://stackoverflow.com/questions/1906511/how-to-find-the-distance-between-two-cg-points
-     */
-    private func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
-        let xDist = a.x - b.x
-        let yDist = a.y - b.y
-        return CGFloat(sqrt(xDist * xDist + yDist * yDist))
     }
     
     private func lerp(p0: CGPoint, p1: CGPoint, t: CGFloat) -> CGPoint {
@@ -128,19 +115,19 @@ struct MainView: View {
                 .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [10, 20]))
                 .opacity(0.5)
 
-//                // Foreground curve
-//                Path { path in
-//                    path.move(to: data.properties.P0)
-//                    path.addCurve(
-//                        to: data.properties.P1,
-//                        control1: data.properties.C0,
-//                        control2: data.properties.C1
-//                    )
-//
-//                }
-//                .trim(from: 0, to: data.t)
-//                .stroke(.white, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-//                .animation(data.animation, value: data.t)
+                // Foreground curve
+                Path { path in
+                    path.move(to: data.properties.P0)
+                    path.addCurve(
+                        to: data.properties.P1,
+                        control1: data.properties.C0,
+                        control2: data.properties.C1
+                    )
+
+                }
+                .trim(from: 0, to: data.t)
+                .stroke(.white, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                .animation(data.animation, value: data.t)
             }
             
             // Lerp points
@@ -166,7 +153,7 @@ struct MainView: View {
                 .fill(.mint)
 
                 // Lerp 5
-                Circle(start: lerp3, end: lerp4, t: data.t, size: pointSize/2)
+                SuperCircle(start1: lerp0, end1: lerp1, start2: lerp1, end2: lerp2, t: data.t, size: pointSize/2)
                 .fill(.green)
             }
             .animation(data.animation, value: data.t)
