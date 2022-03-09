@@ -14,7 +14,7 @@ struct BezierCurve: View, Animatable {
     var resolution: Int
     
     private func lerp(p0: CGPoint, p1: CGPoint, t: CGFloat) -> CGPoint {
-        return CGPoint(x: p0.x*(1-t)+p1.x*t, y: p0.y*(1-t)+p1.y*t)
+        CGPoint(x: p0.x*(1-t)+p1.x*t, y: p0.y*(1-t)+p1.y*t)
     }
     
     private func multiLerp(points: [CGPoint], t: CGFloat) -> [CGPoint] {
@@ -35,12 +35,36 @@ struct BezierCurve: View, Animatable {
             buf += [tmp]
             scope = tmp
         }
-        
+
         return buf
     }
     
+    private func lerpColor(c1: CGFloat, c2: CGFloat, t: CGFloat) -> CGFloat {
+        c1*(1-t)+c2*t
+    }
+    
+    private func multiLerpColor(colors: [CGFloat], t: CGFloat) -> [CGFloat] {
+        zip(colors[..<colors.count], colors[1...]).map { (a, b) in
+            lerpColor(c1: a, c2: b, t: t)
+        }
+    }
+    
+    private func getLerpColors(colors: [CGFloat], t: CGFloat) -> [[CGFloat]] {
+        guard colors.count >= 2 else { return [[]] }
+        var buf: [[CGFloat]] = []
+        var scope: [CGFloat] = colors
+        while true {
+            if scope.count == 1 {
+                return buf + [scope]
+            }
+            let tmp = multiLerpColor(colors: scope, t: t)
+            buf += [tmp]
+            scope = tmp
+        }
+    }
+    
     private func rectFromPoint(p: CGPoint, size: CGFloat) -> CGRect {
-        return CGRect(x: p.x-size/2, y: p.y-size/2, width: size, height: size)
+        CGRect(x: p.x-size/2, y: p.y-size/2, width: size, height: size)
     }
     
     func getGesture(_ id: Int) -> some Gesture {
@@ -56,7 +80,9 @@ struct BezierCurve: View, Animatable {
     }
     
     var body: some View {
+        let colors = (0..<points.count).map { i in CGFloat(i)/CGFloat(points.count) }
         let lerpPoints: [[CGPoint]] = getLerpPoints(points: points, t: t)
+        let lerpColors: [[CGFloat]] = getLerpColors(colors: colors, t: t)
         
         // Lerp lines
         Path { path in
@@ -96,33 +122,47 @@ struct BezierCurve: View, Animatable {
         .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [10, 20]))
         
         // Foreground curve
+        ForEach(0..<Int(t*CGFloat(resolution)), id: \.self) { i in
+            let s1 = CGFloat(i)/CGFloat(resolution)
+            let s2 = CGFloat(i+1)/CGFloat(resolution)
+            Path { path in
+                path.move(to: getLerpPoints(points: points, t: s1).last![0])
+                path.addLine(to: getLerpPoints(points: points, t: s2).last![0])
+            }
+            .stroke(
+                Color(hue: getLerpColors(colors: colors, t: s2).last![0], saturation: 1, brightness: 1),
+                style: StrokeStyle(lineWidth: 8, lineCap: .round)
+            )
+        }
+        let i = Int(t*CGFloat(resolution))
+        let s1 = CGFloat(i)/CGFloat(resolution)
         Path { path in
             if points.count >= 2 {
-                path.move(to: points[0])
-                for _t in 0...Int(t*CGFloat(resolution)) {
-                    let s = CGFloat(_t)/CGFloat(resolution)
-                    path.addLine(to: getLerpPoints(points: points, t: s).last![0])
-                }
-                
+                path.move(to: getLerpPoints(points: points, t: s1).last![0])
                 path.addLine(to: lerpPoints.last![0])
             }
         }
-        .stroke(.white, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+        .stroke(
+            Color(hue: points.count >= 2 ? getLerpColors(colors: colors, t: t).last![0] : 0, saturation: 1, brightness: 1),
+            style: StrokeStyle(lineWidth: 8, lineCap: .round)
+        )
         
-        // Lerps
-        Path { path in
-            for p in lerpPoints.flatMap({e in e}) {
-                path.addEllipse(in: rectFromPoint(p: p, size: 10))
+        // Lerp anchors
+        let flatPoints: [CGPoint] = lerpPoints.flatMap({ e in e })
+        let flatColors: [CGFloat] = lerpColors.flatMap({ e in e })
+        ForEach(0..<flatPoints.count, id: \.self) { i in
+            Path { path in
+                path.addEllipse(in: rectFromPoint(p: flatPoints[i], size: 10))
             }
+            .fill(Color(hue: flatColors[i], saturation: 1, brightness: 1))
         }
-        .fill(.indigo)
         
         // Control anchors
         ForEach(0..<points.count, id: \.self) { i in
             Path { path in
                 path.addEllipse(in: rectFromPoint(p: points[i], size: 20))
             }
-            .fill(.white)
+            .fill(Color(hue: Double(i)/Double(points.count), saturation: 1, brightness: 1))
             .gesture(getGesture(i))
         }
     }
