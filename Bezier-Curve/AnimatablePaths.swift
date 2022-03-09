@@ -8,85 +8,122 @@
 import Foundation
 import SwiftUI
 
-struct Line: Shape {
-    var start1, end1, start2, end2: CGPoint
+struct BezierCurve: View, Animatable {
+    @Binding var points: [CGPoint]
     var t: CGFloat
-
-    private func lerp(p0: CGPoint, p1: CGPoint, t: CGFloat) -> CGPoint {
-        return CGPoint(x: p0.x*(1-t)+p1.x*t, y: p0.y*(1-t)+p1.y*t)
-    }
-    
-    var animatableData: AnimatablePair<AnimatablePair<AnimatablePair<CGPoint.AnimatableData, CGPoint.AnimatableData>, AnimatablePair<CGPoint.AnimatableData, CGPoint.AnimatableData>>, CGFloat> {
-        get { AnimatablePair(AnimatablePair(AnimatablePair(start1.animatableData, end1.animatableData), AnimatablePair(start2.animatableData, end2.animatableData)), t) }
-        set {
-            (start1.animatableData, end1.animatableData) = (newValue.first.first.first, newValue.first.first.second)
-            (start2.animatableData, end2.animatableData) = (newValue.first.second.first, newValue.first.second.second)
-            t = newValue.second
-        }
-    }
-
-    func path(in rect: CGRect) -> Path {
-        Path { path in
-            path.move(to: lerp(p0: start1, p1: start2, t: t))
-            path.addLine(to: lerp(p0: end1, p1: end2, t: t))
-        }
-    }
-}
-
-struct Circle: Shape {
-    var start, end: CGPoint
-    var t: CGFloat
-    var size: CGFloat
+    var resolution: Int
     
     private func lerp(p0: CGPoint, p1: CGPoint, t: CGFloat) -> CGPoint {
         return CGPoint(x: p0.x*(1-t)+p1.x*t, y: p0.y*(1-t)+p1.y*t)
     }
     
-    private func rectFromPoint(p: CGPoint) -> CGRect {
+    private func multiLerp(points: [CGPoint], t: CGFloat) -> [CGPoint] {
+        zip(points[..<points.count], points[1...]).map { (a, b) in
+            lerp(p0: a, p1: b, t: t)
+        }
+    }
+    
+    private func getLerpPoints(points: [CGPoint], t: CGFloat) -> [[CGPoint]] {
+        guard points.count >= 2 else { return [[]] }
+        var buf: [[CGPoint]] = [[]]
+        var scope: [CGPoint] = points
+        while true {
+            if scope.count == 1 {
+                return buf + [scope]
+            }
+            let tmp = multiLerp(points: scope, t: t)
+            buf += [tmp]
+            scope = tmp
+        }
+        
+        return buf
+    }
+    
+    private func rectFromPoint(p: CGPoint, size: CGFloat) -> CGRect {
         return CGRect(x: p.x-size/2, y: p.y-size/2, width: size, height: size)
     }
     
-    var animatableData: AnimatablePair<AnimatablePair<CGPoint.AnimatableData, CGPoint.AnimatableData>, CGFloat> {
-        get { AnimatableData(AnimatablePair(start.animatableData, end.animatableData), t) }
-        set {
-            start.animatableData = newValue.first.first
-            end.animatableData   = newValue.first.second
-            t = newValue.second
-        }
+    func getGesture(_ id: Int) -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { gesture in
+                points[id] = gesture.location
+            }
     }
-
-    func path(in rect: CGRect) -> Path {
+    
+    var animatableData: CGFloat {
+        get { t }
+        set { t = newValue }
+    }
+    
+    var body: some View {
+        let lerpPoints: [[CGPoint]] = getLerpPoints(points: points, t: t)
+        
+        // Lerp lines
         Path { path in
-            path.addEllipse(in: rectFromPoint(p: lerp(p0: start, p1: end, t: t)))
+            for tier in lerpPoints {
+                guard tier.count > 1 else { continue }
+                for (a, b) in zip(tier[..<(tier.count)], tier[1...]) {
+                    path.move(to: a)
+                    path.addLine(to: b)
+                }
+            }
         }
-    }
-}
-
-struct SuperCircle: Shape {
-    var start1, end1, start2, end2: CGPoint
-    var t: CGFloat
-    var size: CGFloat
-
-    private func lerp(p0: CGPoint, p1: CGPoint, t: CGFloat) -> CGPoint {
-        return CGPoint(x: p0.x*(1-t)+p1.x*t, y: p0.y*(1-t)+p1.y*t)
-    }
-    
-    private func rectFromPoint(p: CGPoint) -> CGRect {
-        return CGRect(x: p.x-size/2, y: p.y-size/2, width: size, height: size)
-    }
-    
-    var animatableData: AnimatablePair<AnimatablePair<AnimatablePair<CGPoint.AnimatableData, CGPoint.AnimatableData>, AnimatablePair<CGPoint.AnimatableData, CGPoint.AnimatableData>>, CGFloat> {
-        get { AnimatablePair(AnimatablePair(AnimatablePair(start1.animatableData, end1.animatableData), AnimatablePair(start2.animatableData, end2.animatableData)), t) }
-        set {
-            (start1.animatableData, end1.animatableData) = (newValue.first.first.first, newValue.first.first.second)
-            (start2.animatableData, end2.animatableData) = (newValue.first.second.first, newValue.first.second.second)
-            t = newValue.second
-        }
-    }
-    
-    func path(in rect: CGRect) -> Path {
+        .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [1, 10]))
+        
+        // Control lines
         Path { path in
-            path.addEllipse(in: rectFromPoint(p: lerp(p0: lerp(p0: start1, p1: start2, t: t), p1: lerp(p0: end1, p1: end2, t: t), t: t)))
+            if points.count >= 1 {
+                path.move(to: points[0])
+                for p in points[1...] {
+                    path.addLine(to: p)
+                }
+            }
+        }
+        .stroke(.gray, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+        
+        // Background curve
+        Path { path in
+            if points.count >= 2 {
+                path.move(to: points[0])
+                for _t in 0...Int(CGFloat(resolution)) {
+                    let s = CGFloat(_t)/CGFloat(resolution)
+                    path.addLine(to: getLerpPoints(points: points, t: s).last![0])
+                }
+            
+                path.addLine(to: points.last!)
+            }
+        }
+        .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [10, 20]))
+        
+        // Foreground curve
+        Path { path in
+            if points.count >= 2 {
+                path.move(to: points[0])
+                for _t in 0...Int(t*CGFloat(resolution)) {
+                    let s = CGFloat(_t)/CGFloat(resolution)
+                    path.addLine(to: getLerpPoints(points: points, t: s).last![0])
+                }
+                
+                path.addLine(to: lerpPoints.last![0])
+            }
+        }
+        .stroke(.white, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+        
+        // Lerps
+        Path { path in
+            for p in lerpPoints.flatMap({e in e}) {
+                path.addEllipse(in: rectFromPoint(p: p, size: 10))
+            }
+        }
+        .fill(.indigo)
+        
+        // Control anchors
+        ForEach(0..<points.count, id: \.self) { i in
+            Path { path in
+                path.addEllipse(in: rectFromPoint(p: points[i], size: 20))
+            }
+            .fill(.white)
+            .gesture(getGesture(i))
         }
     }
 }

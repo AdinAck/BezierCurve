@@ -16,6 +16,12 @@ struct ContentView: View {
             NavigationView {
                 PanelView(data: $data)
                 MainView(data: $data)
+                .background(.background)
+                .gesture(DragGesture(minimumDistance: 0).onEnded { gesture in
+                    if data.placingPoints {
+                        data.points.append(gesture.location)
+                    }
+                })
             }
         }
     }
