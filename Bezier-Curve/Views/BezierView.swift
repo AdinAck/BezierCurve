@@ -13,55 +13,32 @@ struct BezierCurve: View, Animatable {
     var t: CGFloat
     var resolution: Int
     
-    private func lerp(p0: CGPoint, p1: CGPoint, t: CGFloat) -> CGPoint {
-        CGPoint(x: p0.x*(1-t)+p1.x*t, y: p0.y*(1-t)+p1.y*t)
-    }
-    
-    private func multiLerp(points: [CGPoint], t: CGFloat) -> [CGPoint] {
-        zip(points[..<points.count], points[1...]).map { (a, b) in
-            lerp(p0: a, p1: b, t: t)
+    private func lerp<T: Lerpable>(p0: T, p1: T, t: CGFloat) -> T {
+            p0*(1-t)+p1*t
         }
-    }
-    
-    private func getLerpPoints(points: [CGPoint], t: CGFloat) -> [[CGPoint]] {
-        guard points.count >= 2 else { return [[]] }
-        var buf: [[CGPoint]] = [[]]
-        var scope: [CGPoint] = points
-        while true {
-            if scope.count == 1 {
-                return buf + [scope]
+        
+        private func multiLerp<T: Lerpable>(points: [T], t: CGFloat) -> [T] {
+            zip(points[..<points.count], points[1...]).map { (a, b) in
+                lerp(p0: a, p1: b, t: t)
             }
-            let tmp = multiLerp(points: scope, t: t)
-            buf += [tmp]
-            scope = tmp
         }
+        
+        private func getLerpPoints<T: Lerpable>(points: [T], t: CGFloat) -> [[T]] {
+            guard points.count >= 2 else { return [[]] }
+            
+            var buf: [[T]] = []
+            var scope: [T] = points
+            while true {
+                if scope.count == 1 {
+                    return buf + [scope]
+                }
+                let tmp = multiLerp(points: scope, t: t)
+                buf += [tmp]
+                scope = tmp
+            }
 
-        return buf
-    }
-    
-    private func lerpColor(c1: CGFloat, c2: CGFloat, t: CGFloat) -> CGFloat {
-        c1*(1-t)+c2*t
-    }
-    
-    private func multiLerpColor(colors: [CGFloat], t: CGFloat) -> [CGFloat] {
-        zip(colors[..<colors.count], colors[1...]).map { (a, b) in
-            lerpColor(c1: a, c2: b, t: t)
+            return buf
         }
-    }
-    
-    private func getLerpColors(colors: [CGFloat], t: CGFloat) -> [[CGFloat]] {
-        guard colors.count >= 2 else { return [[]] }
-        var buf: [[CGFloat]] = []
-        var scope: [CGFloat] = colors
-        while true {
-            if scope.count == 1 {
-                return buf + [scope]
-            }
-            let tmp = multiLerpColor(colors: scope, t: t)
-            buf += [tmp]
-            scope = tmp
-        }
-    }
     
     private func rectFromPoint(p: CGPoint, size: CGFloat) -> CGRect {
         CGRect(x: p.x-size/2, y: p.y-size/2, width: size, height: size)
@@ -82,7 +59,7 @@ struct BezierCurve: View, Animatable {
     var body: some View {
         let colors = (0..<points.count).map { i in CGFloat(i)/CGFloat(points.count) }
         let lerpPoints: [[CGPoint]] = getLerpPoints(points: points, t: t)
-        let lerpColors: [[CGFloat]] = getLerpColors(colors: colors, t: t)
+        let lerpColors: [[CGFloat]] = getLerpPoints(points: colors, t: t)
         
         // Lerp lines
         Path { path in
@@ -130,7 +107,7 @@ struct BezierCurve: View, Animatable {
                 path.addLine(to: getLerpPoints(points: points, t: s2).last![0])
             }
             .stroke(
-                Color(hue: getLerpColors(colors: colors, t: s2).last![0], saturation: 1, brightness: 1),
+                Color(hue: getLerpPoints(points: colors, t: s2).last![0], saturation: 1, brightness: 1),
                 style: StrokeStyle(lineWidth: 8, lineCap: .round)
             )
         }
@@ -143,7 +120,7 @@ struct BezierCurve: View, Animatable {
             }
         }
         .stroke(
-            Color(hue: points.count >= 2 ? getLerpColors(colors: colors, t: t).last![0] : 0, saturation: 1, brightness: 1),
+            Color(hue: points.count >= 2 ? getLerpPoints(points: colors, t: t).last![0] : 0, saturation: 1, brightness: 1),
             style: StrokeStyle(lineWidth: 8, lineCap: .round)
         )
         
