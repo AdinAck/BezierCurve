@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct PanelView: View {
-    
-//    @Binding var properties: BezierModel
-//    @Binding var t: CGFloat
-//    @Binding var animation: Animation
     @Binding var data: Data
     @State var t: CGFloat = 0
     @State var resolution: CGFloat = 128

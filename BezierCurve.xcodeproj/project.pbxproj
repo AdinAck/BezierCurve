@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40AF289027D4552600D7BCFB /* Bezier_CurveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF288F27D4552600D7BCFB /* Bezier_CurveApp.swift */; };
+		40AF289027D4552600D7BCFB /* BezierCurveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF288F27D4552600D7BCFB /* BezierCurveApp.swift */; };
 		40AF289227D4552600D7BCFB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AF289127D4552600D7BCFB /* ContentView.swift */; };
 		40AF289427D4552700D7BCFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40AF289327D4552700D7BCFB /* Assets.xcassets */; };
 		40AF289727D4552700D7BCFB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40AF289627D4552700D7BCFB /* Preview Assets.xcassets */; };
@@ -19,12 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		40AF288C27D4552600D7BCFB /* Bezier-Curve.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bezier-Curve.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		40AF288F27D4552600D7BCFB /* Bezier_CurveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bezier_CurveApp.swift; sourceTree = "<group>"; };
+		40AF288C27D4552600D7BCFB /* BezierCurve.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierCurve.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		40AF288F27D4552600D7BCFB /* BezierCurveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierCurveApp.swift; sourceTree = "<group>"; };
 		40AF289127D4552600D7BCFB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		40AF289327D4552700D7BCFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		40AF289627D4552700D7BCFB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		40AF289827D4552700D7BCFB /* Bezier_Curve.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bezier_Curve.entitlements; sourceTree = "<group>"; };
+		40AF289827D4552700D7BCFB /* BezierCurve.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BezierCurve.entitlements; sourceTree = "<group>"; };
 		40AF289E27D45F2B00D7BCFB /* PanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
 		40AF28A027D45F3D00D7BCFB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		40AF28A227D463C200D7BCFB /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
@@ -46,7 +46,7 @@
 		40AF288327D4552600D7BCFB = {
 			isa = PBXGroup;
 			children = (
-				40AF288E27D4552600D7BCFB /* Bezier-Curve */,
+				40AF288E27D4552600D7BCFB /* BezierCurve */,
 				40AF288D27D4552600D7BCFB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,22 +54,22 @@
 		40AF288D27D4552600D7BCFB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				40AF288C27D4552600D7BCFB /* Bezier-Curve.app */,
+				40AF288C27D4552600D7BCFB /* BezierCurve.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		40AF288E27D4552600D7BCFB /* Bezier-Curve */ = {
+		40AF288E27D4552600D7BCFB /* BezierCurve */ = {
 			isa = PBXGroup;
 			children = (
-				40AF288F27D4552600D7BCFB /* Bezier_CurveApp.swift */,
+				40AF288F27D4552600D7BCFB /* BezierCurveApp.swift */,
 				40B28A8D27D9939C0098A828 /* Views */,
 				40B28A8E27D993A30098A828 /* Utils */,
 				40AF289327D4552700D7BCFB /* Assets.xcassets */,
-				40AF289827D4552700D7BCFB /* Bezier_Curve.entitlements */,
+				40AF289827D4552700D7BCFB /* BezierCurve.entitlements */,
 				40AF289527D4552700D7BCFB /* Preview Content */,
 			);
-			path = "Bezier-Curve";
+			path = BezierCurve;
 			sourceTree = "<group>";
 		};
 		40AF289527D4552700D7BCFB /* Preview Content */ = {
@@ -103,9 +103,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		40AF288B27D4552600D7BCFB /* Bezier-Curve */ = {
+		40AF288B27D4552600D7BCFB /* BezierCurve */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 40AF289B27D4552700D7BCFB /* Build configuration list for PBXNativeTarget "Bezier-Curve" */;
+			buildConfigurationList = 40AF289B27D4552700D7BCFB /* Build configuration list for PBXNativeTarget "BezierCurve" */;
 			buildPhases = (
 				40AF288827D4552600D7BCFB /* Sources */,
 				40AF288927D4552600D7BCFB /* Frameworks */,
@@ -115,9 +115,9 @@
 			);
 			dependencies = (
 			);
-			name = "Bezier-Curve";
+			name = BezierCurve;
 			productName = "Bezier-Curve";
-			productReference = 40AF288C27D4552600D7BCFB /* Bezier-Curve.app */;
+			productReference = 40AF288C27D4552600D7BCFB /* BezierCurve.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -135,7 +135,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 40AF288727D4552600D7BCFB /* Build configuration list for PBXProject "Bezier-Curve" */;
+			buildConfigurationList = 40AF288727D4552600D7BCFB /* Build configuration list for PBXProject "BezierCurve" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -148,7 +148,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				40AF288B27D4552600D7BCFB /* Bezier-Curve */,
+				40AF288B27D4552600D7BCFB /* BezierCurve */,
 			);
 		};
 /* End PBXProject section */
@@ -176,7 +176,7 @@
 				40AF28A327D463C200D7BCFB /* ModelData.swift in Sources */,
 				40AF289227D4552600D7BCFB /* ContentView.swift in Sources */,
 				40B28A8C27D9936B0098A828 /* Lerpable.swift in Sources */,
-				40AF289027D4552600D7BCFB /* Bezier_CurveApp.swift in Sources */,
+				40AF289027D4552600D7BCFB /* BezierCurveApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,11 +303,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Bezier-Curve/Bezier_Curve.entitlements";
+				CODE_SIGN_ENTITLEMENTS = BezierCurve/BezierCurve.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Bezier-Curve/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"BezierCurve/Preview Content\"";
 				DEVELOPMENT_TEAM = 84WPVNZ8GM;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -318,7 +318,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "AdinAck.Bezier-Curve";
+				PRODUCT_BUNDLE_IDENTIFIER = AdinAck.BezierCurve;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -330,11 +330,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Bezier-Curve/Bezier_Curve.entitlements";
+				CODE_SIGN_ENTITLEMENTS = BezierCurve/BezierCurve.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Bezier-Curve/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"BezierCurve/Preview Content\"";
 				DEVELOPMENT_TEAM = 84WPVNZ8GM;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -345,7 +345,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "AdinAck.Bezier-Curve";
+				PRODUCT_BUNDLE_IDENTIFIER = AdinAck.BezierCurve;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -355,7 +355,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		40AF288727D4552600D7BCFB /* Build configuration list for PBXProject "Bezier-Curve" */ = {
+		40AF288727D4552600D7BCFB /* Build configuration list for PBXProject "BezierCurve" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				40AF289927D4552700D7BCFB /* Debug */,
@@ -364,7 +364,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		40AF289B27D4552700D7BCFB /* Build configuration list for PBXNativeTarget "Bezier-Curve" */ = {
+		40AF289B27D4552700D7BCFB /* Build configuration list for PBXNativeTarget "BezierCurve" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				40AF289C27D4552700D7BCFB /* Debug */,
