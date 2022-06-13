@@ -8,12 +8,17 @@
 import Foundation
 import SwiftUI
 
-struct Data {
-    var points: [CGPoint] = []
-    var t: CGFloat = 0
-    var resolution: Int = 128
-    var animation: Animation = .spring(response: 0.5, dampingFraction: 1)
-    var dragAnimation: Animation = .spring(response: 1, dampingFraction: 1)
-    var defaultDragAnimation: Animation = .spring(response: 1, dampingFraction: 1)
-    var placingPoints: Bool = false
+enum Mode: Identifiable {
+    case lerps, vector_expanded, vector_stacked
+    var id: Self { self }
+}
+
+class Data: ObservableObject {
+    @Published var points: [CGPoint] = []
+    @Published var t: CGFloat = 0
+    @Published var resolution: Int = 128
+    @Published var animation: Animation = .spring(response: 0.5, dampingFraction: 1)
+    @Published var placingPoints: Bool = false
+    @Published var showVectors: Bool = true
+    @Published var mode: Mode = .lerps
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PanelView: View {
-    @Binding var data: Data
+    @EnvironmentObject var data: Data
     @State var t: CGFloat = 0
     @State var resolution: CGFloat = 128
     
@@ -51,6 +51,11 @@ struct PanelView: View {
                         }
                 }
                 Toggle("Place points", isOn: $data.placingPoints)
+                Picker("Mode", selection: $data.mode) {
+                    Text("Lerps").tag(Mode.lerps)
+                    Text("Vectors Expanded").tag(Mode.vector_expanded)
+                    Text("Vectors Stacked").tag(Mode.vector_stacked)
+                }
             }
         }
         .navigationTitle("Bezier Curve")

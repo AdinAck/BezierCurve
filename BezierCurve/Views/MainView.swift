@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct MainView: View {
-    @Binding var data: Data
+    @EnvironmentObject var data: Data
     
     var body: some View {
         GeometryReader { geometry in
-            BezierCurve(points: $data.points, t: data.t, resolution: data.resolution)
+            BezierCurve(t: data.t)
+                .environmentObject(data)
             .animation(data.animation, value: data.t)
         }
     }

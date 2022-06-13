@@ -9,6 +9,7 @@ import Foundation
 
 protocol Lerpable: AdditiveArithmetic {
     static func * (lhs: Self, rhs: CGFloat) -> Self
+    static func / (lhs: Self, rhs: CGFloat) -> Self
 }
 
 extension CGPoint: Lerpable {
@@ -16,12 +17,16 @@ extension CGPoint: Lerpable {
         CGPoint(x: lhs.x-rhs.x, y: lhs.y-rhs.y)
     }
     
+    public static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        CGPoint(x: lhs.x+rhs.x, y: lhs.y+rhs.y)
+    }
+    
     public static func * (lhs: CGPoint, rhs: CGFloat) -> CGPoint {
         CGPoint(x: lhs.x*rhs, y: lhs.y*rhs)
     }
     
-    public static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
-        CGPoint(x: lhs.x+rhs.x, y: lhs.y+rhs.y)
+    public static func / (lhs: CGPoint, rhs: CGFloat) -> CGPoint {
+        CGPoint(x: lhs.x/rhs, y: lhs.y/rhs)
     }
 }
 
