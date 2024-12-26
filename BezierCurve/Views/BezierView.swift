@@ -105,7 +105,7 @@ struct BezierCurve: View, Animatable {
             }
             .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [1, 10]))
         }
-        
+
         if data.mode == .vector_expanded {
             ForEach(0..<data.points.count, id: \.self) { i in
                 Path { path in
@@ -120,7 +120,7 @@ struct BezierCurve: View, Animatable {
             }
         } else if data.mode == .vector_stacked {
             let series: [CGPoint] = bernsteinSeries()
-            
+
             ForEach(0..<data.points.count, id: \.self) { i in
                 Path { path in
                     path.move(to: series[i])
@@ -144,7 +144,7 @@ struct BezierCurve: View, Animatable {
             }
             .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [1, 10]))
         }
-        
+
         // Control lines
         Path { path in
             if data.points.count >= 1 {
@@ -155,7 +155,7 @@ struct BezierCurve: View, Animatable {
             }
         }
         .stroke(.gray, style: StrokeStyle(lineWidth: 4, lineCap: .round))
-        
+
         // Background curve
         Path { path in
             if data.points.count >= 2 {
@@ -164,12 +164,12 @@ struct BezierCurve: View, Animatable {
                     let s = CGFloat(_t)/CGFloat(data.resolution)
                     path.addLine(to: getLerpPoints(points: data.points, t: s).last![0])
                 }
-                
+
                 path.addLine(to: data.points.last!)
             }
         }
         .stroke(.gray, style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [10, 20]))
-        
+
         // Foreground curve
         ForEach(0..<Int(t*CGFloat(data.resolution)), id: \.self) { i in
             let s1 = CGFloat(i)/CGFloat(data.resolution)
@@ -195,7 +195,7 @@ struct BezierCurve: View, Animatable {
             Color(hue: data.points.count >= 2 ? lerpColors.last![0] : 0, saturation: 1, brightness: 1),
             style: StrokeStyle(lineWidth: 8, lineCap: .round)
         )
-        
+
         if data.mode == .lerps {
             // Lerp anchors
             let flatPoints: [CGPoint] = lerpPoints.flatMap({ e in e })
